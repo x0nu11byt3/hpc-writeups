@@ -51,17 +51,17 @@ int main(int argc, char** argv) {
 
         for (int i = 1; i <= gsize - 1 ; i++ ){
             if ( i == ( gsize - 1 ) ){
-                MPI_Send(&points_array_a[(i-1)*data_amount], last_data_amount, MPI_INT, i,0, MPI_COMM_WORLD);
-                MPI_Send(&points_array_b[(i-1)*data_amount], last_data_amount, MPI_INT, i,0, MPI_COMM_WORLD);
-                MPI_Send(&points_array_c[(i-1)*data_amount], last_data_amount, MPI_INT, i,0, MPI_COMM_WORLD);
+                MPI_Send(&points_array_a[(i-1)*data_amount], last_data_amount, datatype_point, i,0, MPI_COMM_WORLD);
+                MPI_Send(&points_array_b[(i-1)*data_amount], last_data_amount, datatype_point, i,0, MPI_COMM_WORLD);
+                MPI_Send(&points_array_c[(i-1)*data_amount], last_data_amount, datatype_point, i,0, MPI_COMM_WORLD);
             }
-            MPI_Send(&points_array_a[(i-1)*data_amount], data_amount , MPI_INT, i,0, MPI_COMM_WORLD);
-            MPI_Send(&points_array_b[(i-1)*data_amount], data_amount , MPI_INT, i,0, MPI_COMM_WORLD);
-            MPI_Send(&points_array_c[(i-1)*data_amount], data_amount , MPI_INT, i,0, MPI_COMM_WORLD);
+            MPI_Send(&points_array_a[(i-1)*data_amount], data_amount , datatype_point, i,0, MPI_COMM_WORLD);
+            MPI_Send(&points_array_b[(i-1)*data_amount], data_amount , datatype_point, i,0, MPI_COMM_WORLD);
+            MPI_Send(&points_array_c[(i-1)*data_amount], data_amount , datatype_point, i,0, MPI_COMM_WORLD);
         }
 
         for ( int i = 1; i <= gsize-1 ; i++ ){
-            MPI_Recv(points_array_c, data_amount, MPI_INT, i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(points_array_c, data_amount, datatype_point, i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
             //MPI_Recv(points_array_c, last_data_amount, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         }
 
@@ -90,17 +90,19 @@ int main(int argc, char** argv) {
         //allocate_memory_array(&points_array_b_parcial,N);
         //allocate_memory_array(&points_array_c_parcial,N);
 
-        MPI_Recv(points_array_a_parcial,data_amount , MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-        MPI_Recv(points_array_b_parcial,data_amount , MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-        MPI_Recv(points_array_c_parcial,data_amount , MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        MPI_Recv(points_array_a_parcial,data_amount , datatype_point, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        MPI_Recv(points_array_b_parcial,data_amount , datatype_point, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        MPI_Recv(points_array_c_parcial,data_amount , datatype_point, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
         for (int i = 0; i < data_amount - 1 ; i++ ){
             points_array_c_parcial[i].x = points_array_a_parcial[i].x + points_array_b_parcial[i].x;
             points_array_c_parcial[i].y = points_array_a_parcial[i].y + points_array_b_parcial[i].y;
             points_array_c_parcial[i].z = points_array_a_parcial[i].z + points_array_b_parcial[i].z;
         }
-        MPI_Send(points_array_c_parcial, data_amount, MPI_INT, 0,0, MPI_COMM_WORLD);
+        MPI_Send(points_array_c_parcial, data_amount, datatype_point, 0,0, MPI_COMM_WORLD);
     }
+
+    MPI_Type_free(&datatype_point);
     MPI_Finalize();
 
    return 0;
