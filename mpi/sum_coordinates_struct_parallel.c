@@ -38,14 +38,6 @@ int main(int argc, char** argv) {
 
     if ( rank == 0 ) {
 
-        //Point *points_array_a;
-        //Point *points_array_b;
-        //Point *points_array_c;
-
-        //allocate_memory_point_array(&points_array_a,N);
-        //allocate_memory_point_array(&points_array_b,N);
-        //allocate_memory_point_array(&points_array_c,N);
-
         point_fill_coordinates(points_array_a, 1,99);
         point_fill_coordinates(points_array_b, 1,99);
 
@@ -60,10 +52,8 @@ int main(int argc, char** argv) {
             MPI_Send(&points_array_c[(i-1)*data_amount], data_amount , datatype_point, i,0, MPI_COMM_WORLD);
         }
 
-        for ( int i = 1; i <= gsize-1 ; i++ ){
+        for ( int i = 1; i <= gsize-1 ; i++ )
             MPI_Recv(points_array_c, data_amount, datatype_point, i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            //MPI_Recv(points_array_c, last_data_amount, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-        }
 
         printf("[+] Points A:\n");
         print_points(points_array_a);
@@ -79,16 +69,9 @@ int main(int argc, char** argv) {
         if ( rank == gsize - 1 )
             data_amount = last_data_amount;
 
-        //int* points_array_a_parcial;
-        //int* points_array_b_parcial;
-        //int* points_array_c_parcial;
         Point points_array_a_parcial[N];
         Point points_array_b_parcial[N];
         Point points_array_c_parcial[N];
-
-        //allocate_memory_array(&points_array_a_parcial,N);
-        //allocate_memory_array(&points_array_b_parcial,N);
-        //allocate_memory_array(&points_array_c_parcial,N);
 
         MPI_Recv(points_array_a_parcial,data_amount , datatype_point, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         MPI_Recv(points_array_b_parcial,data_amount , datatype_point, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
