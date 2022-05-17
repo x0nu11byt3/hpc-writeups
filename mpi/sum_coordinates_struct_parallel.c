@@ -11,7 +11,6 @@ typedef struct {
     int x, y , z;
 } Point;
 
-void allocate_memory_point_array(int** ptr_array,int n);
 void print_points(Point* points);
 void fill_array_random(int* array, int min, int max);
 void point_fill_coordinates(Point *points,int min, int max);
@@ -89,10 +88,6 @@ int main(int argc, char** argv) {
     MPI_Finalize();
 
    return 0;
-}
-
-void allocate_memory_point_array(int** ptr_array,int n) {
-    *ptr_array = (int*) malloc( n * (3 * sizeof(int)) );
 }
 
 void print_points(Point* points) {
