@@ -9,7 +9,7 @@ __global__ void cuda_hello_world(){
     printf("[+] Hello World from GPU!\n");
 }
 
-int main() {
+int main(int argc, char** argv) {
 
     // kernel invocation with N threads
     cuda_hello_world<<<1,N_THREADS>>>();

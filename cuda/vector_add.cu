@@ -27,7 +27,7 @@ void fill_array_random(float *array, int min, int max){
     }
 }
 
-int main() {
+int main(int argc, char** argv) {
 
     /* Init host code */
     size_t size = N_THREADS * sizeof(float);
