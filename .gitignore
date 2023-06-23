@@ -51,4 +51,5 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-build
+build/bin/matrix
+build/bin/factorial
